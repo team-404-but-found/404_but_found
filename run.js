@@ -89,7 +89,7 @@ app.post('/register', (req, res) => {
 });
 
 app.get('/delivery', (req, res) => {
-  connection.query('SELECT * FROM projects', (err, results) => {
+  connection.query('SELECT * FROM lost', (err, results) => {
     if (err) throw err;
     res.render('delivery', { projects: results });
   });
@@ -123,7 +123,7 @@ app.post('/create', upload.single('image'), (req, res) => {
 
 app.get('/project', (req, res) => {
     const projectId = req.query.id;
-    connection.query('SELECT * FROM projects WHERE id = ?', [projectId], (err, results) => {
+    connection.query('SELECT * FROM lost WHERE no = ?', [projectId], (err, results) => {
       if (err) throw err;
       if (results.length === 0) {
         return res.status(404).send('Project not found');

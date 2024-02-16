@@ -74,17 +74,17 @@
     <% projects.forEach(project => { %>
 
     <div class="box" data-aos="fade-up" data-aos-easing="ease-out-cubic"
-    data-aos-duration="1500" onclick="openProjectDetails(<%= project.id %>)">
+    data-aos-duration="1500" onclick="openProjectDetails(<%= project.no %>)">
           <div class="in pt-4">
-            <h3 style="font-weight: 550; color: rgb(61, 61, 61); margin-bottom: 18px;"> <%= project.title %> </h3>
+            <h3 style="font-weight: 550; color: rgb(61, 61, 61); margin-bottom: 18px;"> <%= project.name %> </h3>
             <div class="innerBox">
-              <div class="key"><%= project.keyword %></div>
+              <div class="key"><%= project.location %></div>
             </div>
             <div class="innerBox">
-              <div class="key"><%= project.member %>명</div>
+              <div class="key"><%= project.created_at %></div>
             </div>
             <div class="innerBox">
-              <div class="key"><%= project.during %></div>
+              <div class="key"><%= project.context %></div>
             </div>
         </div>    
     </div>
