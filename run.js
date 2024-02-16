@@ -62,9 +62,9 @@ app.get('/register', (req, res) => {
 });
 
 app.post('/register', (req, res) => {
-    const { id, password, name } = req.body;
+    const { id, password, name, phone } = req.body;
     bcrypt.hash(password, 10, function(err, hash) {
-        connection.query('INSERT INTO users VALUES (?, ?, ?)', [id, hash, name], function(error, results, fields) {
+        connection.query('INSERT INTO users VALUES (?, ?, ?, ?)', [id, hash, name,phone], function(error, results, fields) {
             if (error) {
                 res.send('Error occurred during registration');
             } else {
