@@ -97,7 +97,7 @@ app.get('/delivery', (req, res) => {
 
 app.get('/search', (req, res) => {
   const keyword = req.query.keyword;
-  const query = 'SELECT * FROM projects WHERE keyword LIKE ?';
+  const query = 'SELECT * FROM lost WHERE name LIKE ?';
   connection.query(query, [`%${keyword}%`], (err, results) => {
     if (err) throw err;
     res.render('delivery', { projects: results });
@@ -131,6 +131,10 @@ app.get('/project', (req, res) => {
       const project = results[0];
       res.render('projectDetail', { project });
     });
+  });
+
+  app.get("/image/:imgName", function (req, res) {
+    res.sendFile(__dirname + "/public/images/" + req.params.imgName);
   });
 
 

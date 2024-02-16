@@ -57,7 +57,7 @@
 
   <div class="wrap">
     <div class="logo mb-5">
-      <h3>MOIM?</h3>
+      <h3>404 But Found</h3>
     </div>
       <!-- search -->
       <div class="search col-md-4" style="margin-bottom: 3vh; width:640px";>
@@ -81,7 +81,7 @@
               <div class="key"><%= project.location %></div>
             </div>
             <div class="innerBox">
-              <div class="key"><%= project.created_at %></div>
+              <div class="key"><%= new Date(project.created_at).toDateString() %></div>
             </div>
             <div class="innerBox">
               <div class="key"><%= project.context %></div>
