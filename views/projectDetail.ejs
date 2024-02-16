@@ -122,8 +122,8 @@
 <body>
   <div class="upload-form">
     <h1 style="font-weight: 800; font-family: 'CustomFont', sans-serif; font-size: 34px;">POST</h1>
-    <form action="/apply" method="POST" style="padding: 20px;">
-      <input type="hidden" id="id" name="id" value="<%= project.id %>">
+    <form id="formtag" action="/lost_post" method="POST" style="padding: 20px;">
+      <input type="hidden" id="id" name="id" value="<%= project.no %>">
       <div class="form-row">
 
         <div class="checkbox-like">
@@ -134,6 +134,19 @@
       <div class="form-row">
         <label for="title">제목</label>
         <span style="font-size: 20px; font-weight:600; color: rgb(80, 80, 80);"><%= project.name %></span>
+      </div>
+
+      <div class="form-row">
+        <label for="title">상태</label>
+        <span style="font-size: 20px; font-weight:600; color: rgb(80, 80, 80);">
+          <% if (project.status == 0) { %>
+              아직 아무도 못찾았어요
+          <% } else if (project.status == 1) { %>
+            진행중...
+          <% } else if (project.status == 2) { %>
+            누군가 찾아주었어요! (완료)
+          <% }  %>
+        </span>
       </div>
 
       <div class="form-row">
@@ -155,24 +168,87 @@
         </div>
       </div>
 
+      <div class="form-row">
+        <label for="keyword">전화번호</label>
+        <span style="font-size: 20px; font-weight:600; color: rgb(80, 80, 80);"><%= phone_number.phone_number %></span>
+      </div>
+
 
       <div class="form-row">
         <label for="preconditions">사진</label>
         <img src="/image/<%= project.image %>" style="width: 300px;">
       </div>
 
-      <div class="btn-area" style="padding-top: 4px;">
-        <button type="submit" class="btn">Confirm</button>
-        <button type="button" onclick="handleClick()" class="btn1">Only Host</button>
-      </div>
+      <input type="hidden" id="mode" name="mode" value="<%= project.id %>">
+
+      
+      <% if (is_author && project.status != 2) { %>
+        <div class="btn-area" style="padding-top: 4px;">
+          <input type="hidden" name="message" value="">
+          <button type="button" class="btn" onclick="foundClick()">Found! (완료 처리)</button>
+          <button type="button" class="btn1" onclick="window.close();">close</button>
+        </div>
+        <div>
+          <% messages.forEach(message => { %>
+
+            <div class="box" data-aos="fade-up" data-aos-easing="ease-out-cubic"
+            data-aos-duration="1500">
+                  <div class="in pt-4">
+                    <p style="color: rgb(61, 61, 61); margin-bottom: 10px;"> <%= message.message %> </p>
+                    
+                </div>    
+            </div>
+            
+            <% }) %>
+        </div>
+      <% } else if(!is_author && project.status != 2) { %>
+        <div>
+          <input type="textarea" name="message" placeholder="메세지를 입력하세요">
+        </div>
+        <div class="btn-area" style="padding-top: 4px;">
+          <button type="button" class="btn" onclick="maybeFoundClick()">Maybe I Found! (찾은 것 같아요!)</button>
+          <button type="button" class="btn1" onclick="window.close();">close</button>
+        </div>
+
+      <% } else if (project.status == 2) { %>
+        <div class="btn-area" style="padding-top: 4px;">
+          <p>이미 찾아진 아이템이네요!</p>
+        </div>
+      <% } %>
+      
       <script>
         // 버튼 클릭 시 실행될 함수 정의
-        function handleClick() {
-          var originalString = window.location.href; // 원본 문자열
-          var modifiedString = originalString.replace("ject", "file");  
-          window.location.assign(modifiedString);
-          //alert("버튼이 클릭되었습니다!");
+        <% if (is_author && project.status != 2) { %>
+        function foundClick() {
+          // ID가 'mode'인 `<input>` 요소 찾기
+          var inputElement = document.getElementById('mode');
+          
+          // `<input>` 요소의 값을 변경
+          inputElement.value = 'found';  // 여기에서 'new-value'를 원하는 값으로 변경하세요.
+          
+          // `<input>` 요소가 포함된 `<form>`을 찾아 제출
+          document.getElementById('formtag').submit();
         }
+        <% } else if(!is_author && project.status != 2) { %>
+          function maybeFoundClick() {
+            // ID가 'mode'인 `<input>` 요소 찾기
+            var inputElement = document.getElementById('mode');
+            
+            // `<input>` 요소의 값을 변경
+            inputElement.value = 'maybefound';  // 여기에서 'new-value'를 원하는 값으로 변경하세요.
+            
+            // `<input>` 요소가 포함된 `<form>`을 찾아 제출
+            document.getElementById('formtag').submit();
+          }
+        <% } %>
+        
+      
+        // function handleClick() {
+        //   var originalString = window.location.href; // 원본 문자열
+        //   var modifiedString = originalString.replace("ject", "file");  
+        //   window.location.assign(modifiedString);
+        //   //alert("버튼이 클릭되었습니다!");
+        // }
     </script>
     </form>
   </div>

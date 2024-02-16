@@ -59,7 +59,7 @@ app.post('/login', (req, res) => {
         if (results.length > 0) {
             bcrypt.compare(password, results[0].password, function(err, result) {
                 if (result == true) {
-                    req.session.user = id;
+                    req.session.user = results[0].uid;
                     res.redirect('/');
                 } else {
                     res.send('Incorrect password');
@@ -78,7 +78,7 @@ app.get('/register', (req, res) => {
 app.post('/register', (req, res) => {
     const { id, password, name, phone } = req.body;
     bcrypt.hash(password, 10, function(err, hash) {
-        connection.query('INSERT INTO users VALUES (?, ?, ?, ?)', [id, hash, name,phone], function(error, results, fields) {
+        connection.query('INSERT INTO users (id,password,name,phone_number) VALUES (?, ?, ?, ?)', [id, hash, name,phone], function(error, results, fields) {
             if (error) {
                 res.send('Error occurred during registration');
             } else {
@@ -89,7 +89,7 @@ app.post('/register', (req, res) => {
 });
 
 app.get('/delivery', (req, res) => {
-  connection.query('SELECT * FROM lost', (err, results) => {
+  connection.query('SELECT * FROM lost where status != 2', (err, results) => {
     if (err) throw err;
     res.render('delivery', { projects: results });
   });
@@ -125,9 +125,9 @@ app.post('/create', upload.single('image'), (req, res) => {
   const { title, location, context, request } = req.body;
   // multer에서 처리된 파일 이름 사용
   const imageFileName = req.file.filename; 
-  const query = 'INSERT INTO lost (name, location, context, request, image, status) VALUES (?, ?, ?, ?, ?, ?)';
+  const query = 'INSERT INTO lost (name, location, context, request, image, status, author) VALUES (?, ?, ?, ?, ?, ?, ?)';
   
-  connection.query(query, [title, location, context, request, imageFileName, 0], (err, results) => {
+  connection.query(query, [title, location, context, request, imageFileName, 0, req.session.user], (err, results) => {
     if (err) throw err;
     res.redirect('/');
   });
@@ -152,10 +152,68 @@ app.get('/project', (req, res) => {
       if (results.length === 0) {
         return res.status(404).send('Project not found');
       }
-      const project = results[0];
-      res.render('projectDetail', { project });
+      const project = results[0]
+
+      connection.query('SELECT * FROM maybe_found WHERE lid = ?', [projectId], (err, results) => {
+        if (err) throw err;
+        const messages = results;
+        if (messages == undefined) {
+          messages = [];
+        }
+        connection.query('SELECT phone_number FROM users WHERE uid = ?', [project.author], (err, results) => {
+          if (err) throw err;
+          const phone_number = results[0];
+          
+          const is_author = req.session.user==project.author;
+  
+          console.log("현재 ID : " + req.session.user);
+          console.log("작성자 ID : " + project.author);
+          console.log("같나요? : " + is_author);
+  
+          res.render('projectDetail', { project, is_author, messages, phone_number });
+        });
+      });
+      
+      
+      
     });
   });
+
+  app.post('/lost_post', (req, res) => {
+    // 요청 본문에서 데이터 추출
+    const { id, mode, message } = req.body;
+    
+    if (mode == "found") {
+      const query = 'UPDATE `lost` SET `status` = 2 WHERE `no` = ?;';
+  
+      connection.query(query, [id], (err, results) => {
+        if (err) throw err;
+        res.redirect('/');
+      });
+    } else if (mode == "maybefound") {
+      const query2 = 'INSERT INTO maybe_found (lid, uid, message) VALUES (?, ?, ?);';
+  
+      const intid = parseInt(id)
+      const userName = parseInt(req.session.user);
+      // console.log(intid, userName, message);
+      // console.log(typeof(intid), typeof(userName), typeof(message));
+      connection.query(query2, [intid, userName, message], (err, results) => {
+        if (err) throw err;
+        // res.redirect('/');
+      });
+
+      // UPDATE `lost` SET `status` = 1 WHERE `no` = 5;
+      const query3 = 'UPDATE `lost` SET `status` = 1 WHERE `no` = ?;';
+  
+      connection.query(query3, [id], (err, results) => {
+        if (err) throw err;
+        res.redirect('/');
+      });
+    }
+    
+    
+  });
+
 
   app.get("/image/:imgName", function (req, res) {
     res.sendFile(__dirname + "/public/images/" + req.params.imgName);
