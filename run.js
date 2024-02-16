@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const cookieParser = require('cookie-parser');
 const mysql = require('mysql');
 const { exec } = require('child_process');
+let multer = require('multer');
 
 // Database connection
 const connection = mysql.createConnection({
@@ -89,9 +90,7 @@ app.get('/search', (req, res) => {
     res.render('delivery', { projects: results });
   });
 });
-app.get('/delivery_create', (req, res) => {
-  res.render('delivery_create');
-});
+
 
 app.get('/lost_create', (req, res) => {
   res.render('lost_create');
