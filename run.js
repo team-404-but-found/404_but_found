@@ -8,16 +8,18 @@ const { exec } = require('child_process');
 let multer = require('multer');
 
 var storage = multer.diskStorage({
-  destination : function(req, file, cb){
-      cb(null, './public/images')
+  destination: function(req, file, cb) {
+    cb(null, './public/images');
   },
-  filename : function(req, file, cb){
-      cb(null, file.originalname)
+  filename: function(req, file, cb) {
+    // 파일 이름에 타임스탬프 추가
+    const timestamp = Date.now();
+    const filename = `${timestamp}-${file.originalname}`;
+    cb(null, filename);
   }
 });
 
-var upload = multer({storage : storage});
-
+var upload = multer({ storage: storage });
 // Database connection
 const connection = mysql.createConnection({
     host: 'dongha.xyz',
@@ -107,10 +109,13 @@ app.get('/lost_create', (req, res) => {
   res.render('lost_create');
 });
 
-app.post('/create',upload.single('image'), (req, res) => {
-  const { title, location, context, request} = req.body;
-  const query = 'INSERT INTO lost (name, location, context, request, image,status) VALUES (?, ?, ?, ?, ?,?)';
-  connection.query(query, [title, location, context, request, 'temp',0], (err, results) => {
+app.post('/create', upload.single('image'), (req, res) => {
+  const { title, location, context, request } = req.body;
+  // multer에서 처리된 파일 이름 사용
+  const imageFileName = req.file.filename; 
+  const query = 'INSERT INTO lost (name, location, context, request, image, status) VALUES (?, ?, ?, ?, ?, ?)';
+  
+  connection.query(query, [title, location, context, request, imageFileName, 0], (err, results) => {
     if (err) throw err;
     res.redirect('/');
   });
