@@ -7,6 +7,17 @@ const mysql = require('mysql');
 const { exec } = require('child_process');
 let multer = require('multer');
 
+var storage = multer.diskStorage({
+  destination : function(req, file, cb){
+      cb(null, './public/images')
+  },
+  filename : function(req, file, cb){
+      cb(null, file.originalname)
+  }
+});
+
+var upload = multer({storage : storage});
+
 // Database connection
 const connection = mysql.createConnection({
     host: 'dongha.xyz',
@@ -96,7 +107,7 @@ app.get('/lost_create', (req, res) => {
   res.render('lost_create');
 });
 
-app.post('/create', (req, res) => {
+app.post('/create',upload.single('image'), (req, res) => {
   const { title, location, context, request} = req.body;
   const query = 'INSERT INTO lost (name, location, context, request, image,status) VALUES (?, ?, ?, ?, ?,?)';
   connection.query(query, [title, location, context, request, 'temp',0], (err, results) => {
