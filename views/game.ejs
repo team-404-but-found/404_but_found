@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/style_de.css" rel="stylesheet">
+  <title>MOIM</title>
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"> 
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script> 
+</head>
+
+<style>
+
+  @font-face {
+  font-family: 'CustomFont';
+  src: url('/css/font.ttf') format('truetype');
+}
+.logo h3 {
+  font-size: 55px;
+  color: #166cea;
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: 'CustomFont', sans-serif;
+}
+.fixed-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000; /* Keep the button above other elements */
+  background-color: #166cea; /* You can set any color you want */
+  color: white; /* You can set any text color you want */
+  border: none;
+  padding: 10px; /* Adjust the padding */
+  width: 80px; /* Set width */
+  height: 80px; /* Set height */
+  border-radius: 50%; /* Ensure round shape */
+  cursor: pointer;
+  font-size: 24px; /* Adjust the font size */
+  font-family: 'CustomFont', sans-serif; /* You can set any font you want */
+  line-height: 20px; /* Center the text vertically */
+  text-align: center; /* Center the text horizontally */
+}
+
+@font-face {
+  font-family: "CustomFont"; /* 임의의 폰트 이름을 지정 */
+  src: url("./css/font.ttf") format("truetype"); /* 폰트 파일의 상대 경로 또는 절대 경로 */
+}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@200;300;400;500;600;700;800&display=swap');
+
+* {
+  font-family:'Noto Sans KR', sans-serif;
+}
+</style>
+
+<body>
+
+  <div class="wrap">
+    <div class="logo mb-5">
+      <h3>MOIM?</h3>
+    </div>
+      <!-- search -->
+      <div class="search col-md-4" style="margin-bottom: 3vh; width:640px";>
+      <!-- 여기가 문제 !!!!  -->
+      <form class="d-flex" action="/search" method="get">
+        <input class="form-control me-2" type="text" name="keyword" placeholder="Search by keyword" aria-label="Search">
+        <button class="btn" type="submit">
+          <svg xmlns="http://www.w3.org/2000/svg" height="2.7em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#116cea}</style><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg>
+        </button>
+      </form>
+    </div>
+
+    <!-- box -->
+    <% projects.forEach(project => { %>
+
+    <div class="box" data-aos="fade-up" data-aos-easing="ease-out-cubic"
+    data-aos-duration="1500" onclick="openProjectDetails(<%= project.no %>)">
+          <div class="in pt-4">
+            <h3 style="font-weight: 550; color: rgb(61, 61, 61); margin-bottom: 18px;"> <%= project.name %> </h3>
+            <div class="innerBox">
+              <div class="key"><%= project.context %></div>
+            </div>
+        </div>    
+    </div>
+    
+    <% }) %>
+
+    <!-- box 넣을거면 여기에 넣어라 -->
+    <button class="fixed-button" onclick="yourFunction()">+</button>
+
+  </div>
+  <script> 
+    AOS.init(); 
+</script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+<script>
+  function openProjectDetails(id) {
+    // 프로젝트 ID를 사용하여 새 창을 열고 해당 프로젝트의 상세 내용 페이지로 이동
+    window.open(`/game_detail?id=${id}`, '_blank');
+  }
+  function yourFunction() {
+  // Add the code that you want to be executed when the button is clicked
+  //alert("Button clicked!");
+  window.location.assign("/game_create");
+}
+
+  </script>

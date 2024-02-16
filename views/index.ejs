@@ -71,7 +71,7 @@
         <div class="p-5 bg-body-tertiary border rounded-3" style="box-shadow: 0px 0px 20px 0.5px rgb(200, 200, 200)";>
           <h2 class="fw-bold" style="color: rgb(54, 54, 54);">미친 영혼의 맞다이</h2>
           <p style="color:rgb(83, 83, 83);">분실등으로 인해 가치를 잃은 소중한 물건!<br>친구들과 경쟁을 통해 물건의 가치를 찾아주세요!</p>
-          <button class="btn btn-outline-secondary" type="button">바로가기</button>
+          <button class="btn btn-outline-secondary" type="button" onclick="redirectToGame()">바로가기</button>
         </div>
       </div>
     </div>
@@ -88,7 +88,7 @@
     function redirectToDelivery() {
       window.location.href = '/lost_create';
     }
-    function redirectToFind() {
-      window.location.href = '/delivery';
+    function redirectToGame() {
+      window.location.href = '/game';
     }
     </script>
