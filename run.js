@@ -5,7 +5,21 @@ const bcrypt = require('bcrypt');
 const cookieParser = require('cookie-parser');
 const mysql = require('mysql');
 const { exec } = require('child_process');
+let multer = require('multer');
 
+var storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, './public/images');
+  },
+  filename: function(req, file, cb) {
+    // 파일 이름에 타임스탬프 추가
+    const timestamp = Date.now();
+    const filename = `${timestamp}-${file.originalname}`;
+    cb(null, filename);
+  }
+});
+
+var upload = multer({ storage: storage });
 // Database connection
 const connection = mysql.createConnection({
     host: 'dongha.xyz',
@@ -62,9 +76,9 @@ app.get('/register', (req, res) => {
 });
 
 app.post('/register', (req, res) => {
-    const { id, password, name } = req.body;
+    const { id, password, name, phone } = req.body;
     bcrypt.hash(password, 10, function(err, hash) {
-        connection.query('INSERT INTO users VALUES (?, ?, ?)', [id, hash, name], function(error, results, fields) {
+        connection.query('INSERT INTO users VALUES (?, ?, ?, ?)', [id, hash, name,phone], function(error, results, fields) {
             if (error) {
                 res.send('Error occurred during registration');
             } else {
@@ -75,7 +89,7 @@ app.post('/register', (req, res) => {
 });
 
 app.get('/delivery', (req, res) => {
-  connection.query('SELECT * FROM projects', (err, results) => {
+  connection.query('SELECT * FROM lost', (err, results) => {
     if (err) throw err;
     res.render('delivery', { projects: results });
   });
@@ -83,20 +97,25 @@ app.get('/delivery', (req, res) => {
 
 app.get('/search', (req, res) => {
   const keyword = req.query.keyword;
-  const query = 'SELECT * FROM projects WHERE keyword LIKE ?';
+  const query = 'SELECT * FROM lost WHERE name LIKE ?';
   connection.query(query, [`%${keyword}%`], (err, results) => {
     if (err) throw err;
     res.render('delivery', { projects: results });
   });
 });
-app.get('/delivery_create', (req, res) => {
-  res.render('delivery_create');
+
+
+app.get('/lost_create', (req, res) => {
+  res.render('lost_create');
 });
 
-app.post('/create', (req, res) => {
-  const { title, keyword, context, member, during, qa, qb } = req.body;
-  const query = 'INSERT INTO projects (title, keyword, context, member, during, qa, qb) VALUES (?, ?, ?, ?, ?, ?, ?)';
-  connection.query(query, [title, keyword, context, member, during, qa, qb], (err, results) => {
+app.post('/create', upload.single('image'), (req, res) => {
+  const { title, location, context, request } = req.body;
+  // multer에서 처리된 파일 이름 사용
+  const imageFileName = req.file.filename; 
+  const query = 'INSERT INTO lost (name, location, context, request, image, status) VALUES (?, ?, ?, ?, ?, ?)';
+  
+  connection.query(query, [title, location, context, request, imageFileName, 0], (err, results) => {
     if (err) throw err;
     res.redirect('/');
   });
@@ -104,7 +123,7 @@ app.post('/create', (req, res) => {
 
 app.get('/project', (req, res) => {
     const projectId = req.query.id;
-    connection.query('SELECT * FROM projects WHERE id = ?', [projectId], (err, results) => {
+    connection.query('SELECT * FROM lost WHERE no = ?', [projectId], (err, results) => {
       if (err) throw err;
       if (results.length === 0) {
         return res.status(404).send('Project not found');
@@ -112,6 +131,10 @@ app.get('/project', (req, res) => {
       const project = results[0];
       res.render('projectDetail', { project });
     });
+  });
+
+  app.get("/image/:imgName", function (req, res) {
+    res.sendFile(__dirname + "/public/images/" + req.params.imgName);
   });
 
 

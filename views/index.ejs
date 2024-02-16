@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.115.4">
-    <title>MOIM</title>
+    <title>404 But Found</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/jumbotron/">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
@@ -47,30 +47,30 @@
     <div class="p-5 mt-5 mb-4 rounded-3 text-center">
       <!-- 설명부분 -->
       <div class="container-fluid py-4" data-aos="fade-up" data-aos-duration="3000">
-        <h1 class="mb-4 fw-bold" style="font-family: 'CustomFont', sans-serif; color: #166cea; font-size: 100px;" data-aos="fade-up" data-aos-duration="7000">MOIM?</h1>
-        <p class="fs-4 mt-5" style="color:rgb(26, 26, 26);">완벽한 팀프로젝트 팀원을 찾고 계시나요?<br>우리 구인 웹으로 지금 바로 시작해보세요. <br>다양한 스킬을 가진 팀원들과 함께 프로젝트를 성공적으로 완수하세요.</p>
+        <h1 class="mb-4 fw-bold" style="font-family: 'CustomFont', sans-serif; color: #166cea; font-size: 100px;" data-aos="fade-up" data-aos-duration="7000">404 But Found</h1>
+        <p class="fs-4 mt-5" style="color:rgb(26, 26, 26);">물건을 잃어버리셨나요?<br>조졌네요! 404 But Found 에서 잃어버린 물건을 찾아보세요 <br>가천대학교 학생들이 여러분의 물건을 함께 찾아줍니다!</p>
       </div>
     </div>
 
     <div class="row align-items-md-stretch" data-aos="fade-up" data-aos-duration="1000" >
       <div class="col-md-4">
         <div class=" p-5 bg-body-tertiary border rounded-3" style="box-shadow: 0px 0px 20px 0.5px rgb(200, 200, 200);">
-          <h2 class="fw-bold" style="color: rgb(54, 54, 54);">배달</h2>
-          <p  style="color:rgb(83, 83, 83);">함께 배달시킬 동료를 찾는 특별한 기회!<br>사람들과 함께 유익한 경험을 만나보세요.</p>
+          <h2 class="fw-bold" style="color: rgb(54, 54, 54);">물건을 잃어버리셨나요?</h2>
+          <p  style="color:rgb(83, 83, 83);">잃어버린 물건을 등록하고 알림을 기다려보세요!<br>이웃들이 잃어버린 물건을 함께 찾아줍니다.</p>
           <button class="btn btn-outline-secondary" type="button"  onclick="redirectToDelivery()">바로가기</button>
         </div>
     </div>
       <div class="col-md-4">
         <div class="p-5 bg-body-tertiary border rounded-3" style="box-shadow: 0px 0px 20px 0.5px rgb(200, 200, 200);">
-          <h2 class="fw-bold" style="color: rgb(54, 54, 54);">구인</h2>
-          <p  style="color:rgb(83, 83, 83);">함께할 동료를 찾는 특별한 기회!<br>사람들과 함께 유익한 경험을 만나보세요.</p>
-          <button class="btn btn-outline-secondary" type="button">바로가기</button>
+          <h2 class="fw-bold" style="color: rgb(54, 54, 54);">물건을 찾으러 가볼까요?</h2>
+          <p  style="color:rgb(83, 83, 83);">지금 있는 내 위치에서 분실물을 찾는 특별한 기회!<br>포인트 적립과 함께 유익한 경험을 만나보세요.</p>
+          <button class="btn btn-outline-secondary" type="button" onclick="redirectToFind()">바로가기</button>
         </div>
       </div>
       <div class="col-md-4">
         <div class="p-5 bg-body-tertiary border rounded-3" style="box-shadow: 0px 0px 20px 0.5px rgb(200, 200, 200)";>
-          <h2 class="fw-bold" style="color: rgb(54, 54, 54);">공구</h2>
-          <p style="color:rgb(83, 83, 83);">공동구매할 동료를 찾는 특별한 기회!<br>사람들과 함께 유익한 경험을 만나보세요.</p>
+          <h2 class="fw-bold" style="color: rgb(54, 54, 54);">미친 영혼의 맞다이</h2>
+          <p style="color:rgb(83, 83, 83);">분실등으로 인해 가치를 잃은 소중한 물건!<br>친구들과 경쟁을 통해 물건의 가치를 찾아주세요!</p>
           <button class="btn btn-outline-secondary" type="button">바로가기</button>
         </div>
       </div>
@@ -86,6 +86,9 @@
 
 <script>
     function redirectToDelivery() {
+      window.location.href = '/lost_create';
+    }
+    function redirectToFind() {
       window.location.href = '/delivery';
     }
     </script>

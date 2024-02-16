@@ -125,26 +125,23 @@
     <form action="/apply" method="POST" style="padding: 20px;">
       <input type="hidden" id="id" name="id" value="<%= project.id %>">
       <div class="form-row">
-        <label for="title">제목</label>
-        <span style="font-size: 20px; font-weight:600; color: rgb(80, 80, 80);"><%= project.title %></span>
-      </div>
 
-      <div class="form-row">
-        <label for="keyword">키워드</label>
-        <span style="font-size: 20px; font-weight:600; color: rgb(80, 80, 80);"><%= project.keyword %></span>
-      </div>
-
-      <div class="form-row">
-        <label for="content">조건</label>
-        <div class="checkbox-like">
-          <span>인원:</span>
-          <span><%= project.member %></span>
-        </div>
         <div class="checkbox-like">
           <span>날짜:</span>
-          <span><%= project.during %></span>
+          <span><%= new Date(project.created_at).toDateString() %></span>
         </div>
       </div>
+      <div class="form-row">
+        <label for="title">제목</label>
+        <span style="font-size: 20px; font-weight:600; color: rgb(80, 80, 80);"><%= project.name %></span>
+      </div>
+
+      <div class="form-row">
+        <label for="keyword">장소</label>
+        <span style="font-size: 20px; font-weight:600; color: rgb(80, 80, 80);"><%= project.location %></span>
+      </div>
+
+      
 
       <div class="form-row">
         <label for="content">내용</label>
@@ -152,31 +149,16 @@
       </div>
 
       <div class="form-row">
-        <label for="preconditions">사전 조건1</label>
+        <label for="preconditions">요청사항</label>
         <div class="textarea-group">
-          <span style="font-size: 20px; font-weight:600; color: rgb(80, 80, 80);"><%= project.qa %></span>
+          <span style="font-size: 20px; font-weight:600; color: rgb(80, 80, 80);"><%= project.request %></span>
         </div>
       </div>
 
-      <div class="form-row">
-        <label for="preconditions">답변1</label>
-        <div class="textarea-group">
-          <textarea id="answerQA" name="answerQA" rows="1"></textarea>
-        </div>
-      </div>
 
       <div class="form-row">
-        <label for="preconditions">사전 조건2</label>
-        <div class="textarea-group">
-          <span style="font-size: 20px; font-weight:600; color: rgb(80, 80, 80);"><%= project.qb %></span>
-        </div>
-      </div>
-
-      <div class="form-row">
-        <label for="preconditions">답변2</label>
-        <div class="textarea-group">
-          <textarea id="answerQB" name="answerQB" rows="1"></textarea>
-        </div>
+        <label for="preconditions">사진</label>
+        <img src="/image/<%= project.image %>" style="width: 300px;">
       </div>
 
       <div class="btn-area" style="padding-top: 4px;">
