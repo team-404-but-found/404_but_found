@@ -95,6 +95,13 @@ app.get('/delivery', (req, res) => {
   });
 });
 
+app.get('/game', (req, res) => {
+  connection.query('SELECT * FROM proposer', (err, results) => {
+    if (err) throw err;
+    res.render('game', { projects: results });
+  });
+});
+
 app.get('/search', (req, res) => {
   const keyword = req.query.keyword;
   const query = 'SELECT * FROM lost WHERE name LIKE ?';
@@ -109,6 +116,11 @@ app.get('/lost_create', (req, res) => {
   res.render('lost_create');
 });
 
+app.get('/game_create', (req, res) => {
+  res.render('game_create');
+});
+
+
 app.post('/create', upload.single('image'), (req, res) => {
   const { title, location, context, request } = req.body;
   // multer에서 처리된 파일 이름 사용
@@ -116,6 +128,18 @@ app.post('/create', upload.single('image'), (req, res) => {
   const query = 'INSERT INTO lost (name, location, context, request, image, status) VALUES (?, ?, ?, ?, ?, ?)';
   
   connection.query(query, [title, location, context, request, imageFileName, 0], (err, results) => {
+    if (err) throw err;
+    res.redirect('/');
+  });
+});
+
+app.post('/game_make', upload.single('image'), (req, res) => {
+  const { title, context, selected_image } = req.body;
+  // multer에서 처리된 파일 이름 사용
+  const imageFileName = req.file.filename; 
+  const query = 'INSERT INTO proposer (name, context, image, RSP, status) VALUES (?, ?, ?, ?, ?)';
+  
+  connection.query(query, [title, context, imageFileName, selected_image, 0], (err, results) => {
     if (err) throw err;
     res.redirect('/');
   });
@@ -135,6 +159,18 @@ app.get('/project', (req, res) => {
 
   app.get("/image/:imgName", function (req, res) {
     res.sendFile(__dirname + "/public/images/" + req.params.imgName);
+  });
+
+  app.get('/game_detail', (req, res) => {
+    const gameId = req.query.id;
+    connection.query('SELECT * FROM proposer WHERE no = ?', [gameId], (err, results) => {
+      if (err) throw err;
+      if (results.length === 0) {
+        return res.status(404).send('Project not found');
+      }
+      const project = results[0];
+      res.render('gameDetail', { project });
+    });
   });
 
 
@@ -171,7 +207,22 @@ app.get('/project', (req, res) => {
     });
   });
   
-  
+  app.post('/game_result', (req, res) => {
+    const { id, selected_image } = req.body;
+    // multer에서 처리된 파일 이름 사용
+    
+    const query = 'INSERT INTO challenger  (RSP, proposer_no) VALUES (?, ?)';
+    
+    connection.query(query, [selected_image, id], (err, results) => {
+      if (err) throw err;
+      connection.query(`SELECT proposer.no ,proposer.RSP as proRSP, status, challenger.RSP as challRSP
+      FROM proposer INNER JOIN challenger ON proposer.no = challenger.proposer_no;`, (err2, results2) => {
+        if (err2) throw err;
+        const project = results2[0];
+        res.render('gameend', { project });
+      });
+    });
+  });
 
   app.post('/apply', (req, res) => {
     const application = {
