@@ -93,10 +93,14 @@ app.get('/delivery_create', (req, res) => {
   res.render('delivery_create');
 });
 
+app.get('/lost_create', (req, res) => {
+  res.render('lost_create');
+});
+
 app.post('/create', (req, res) => {
-  const { title, keyword, context, member, during, qa, qb } = req.body;
-  const query = 'INSERT INTO projects (title, keyword, context, member, during, qa, qb) VALUES (?, ?, ?, ?, ?, ?, ?)';
-  connection.query(query, [title, keyword, context, member, during, qa, qb], (err, results) => {
+  const { title, location, context, request} = req.body;
+  const query = 'INSERT INTO lost (name, location, context, request, image,status) VALUES (?, ?, ?, ?, ?,?)';
+  connection.query(query, [title, location, context, request, 'temp',0], (err, results) => {
     if (err) throw err;
     res.redirect('/');
   });

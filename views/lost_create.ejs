@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/style_up.css">
+  <style>
+    /* Your provided CSS here */
+    body {
+      /* Add any background styles if needed */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 150vh;
+      margin: 0;
+    }
+    .upload-form {
+      width: 90%;
+      max-width: 800px;
+      padding: 40px;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 15px;
+    }
+    .upload-form h1 {
+      font-size: 32px;
+      margin-bottom: 30px;
+    }
+    .form-row {
+      display: flex;
+      flex-direction: column; /* Change to vertical alignment */
+      margin-bottom: 20px;
+    }
+    .form-row label {
+      font-size: 18px;
+      color: #999;
+      margin-bottom: 5px; /* Add some space below the label */
+    }
+    .form-row input,
+    .form-row textarea {
+      width: 100%;
+      padding: 15px;
+      background-color: transparent;
+      border: 1px solid #999;
+      font-size: 18px;
+      color: #000;
+      outline: none;
+      resize: vertical;
+    }
+    .btn-area {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin-top: 20px; /* Add some space above the buttons */
+    }
+    .area {
+      display: flex;
+      
+      margin: auto; /* Add some space above the buttons */
+    }
+    .btn-area button {
+      width: 150px;
+      height: 50px;
+      background: #166cea;
+      color: #fff;
+      font-size: 20px;
+      border: none;
+      cursor: pointer;
+      font-family: 'CustomFont', sans-serif;
+      border-radius: 30px;
+      margin-left: 20px;
+    }
+    @font-face {
+  font-family: 'CustomFont';
+  src: url('/css/font.ttf') format('truetype');
+}
+.upload-form h1 {
+  font-size: 32px;
+  color: #166cea;
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: 'CustomFont', sans-serif;
+}
+    /* Rest of your styles */
+  </style>
+  <title>404 But Found</title>
+</head>
+<body>
+  <div class="upload-form">
+    <h1>POSTING</h1>
+    <form action="/create" method="post">
+      <div class="form-row">
+        <label for="title">물건 이름</label>
+        <input type="text" id="title" name="title" required>
+      </div>
+      
+      <div class="form-row">
+        <label for="content">구체적인 설명</label>
+        <textarea id="context" name="context" rows="1" required></textarea>
+      </div>
+      <div class="form-row">
+        <label for="request">요청사항</label>
+        <input type="text" id="request" name="request">
+      </div>
+      <div class="area">
+      <div class="form-row">
+        <label for="content">위치</label>
+        <textarea id="location" name="location" rows="1" required></textarea>
+      </div>
+      <div style="margin: 10px; padding: 5px;">
+        <!-- 내용 -->
+      </div>
+      <div class="form-row">
+        <label for="content">이미지 업로드</label>
+        <textarea id="member" name="member" rows="1" required></textarea>
+      </div>
+    </div>
+    
+      <div class="btn-area">
+        <button type="submit">등록</button>
+        <button type="button">취소</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
+
+
+
+
