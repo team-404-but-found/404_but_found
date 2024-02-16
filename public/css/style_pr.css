@@ -1,0 +1,105 @@
+@font-face {
+  font-family: 'CustomFont';  /* 폰트 이름 지정 */
+  src: url('TENADA_font/Tenada.ttf') format('truetype');  /* 폰트 파일 경로 지정 */
+  /* 다른 형식 폰트 파일도 지정 가능하며, 여러 형식을 지정하여 브라우저 호환성 향상 가능 */
+}
+
+body {
+  font-family: 'CustomFont';
+  background-color: #f3f3f3;
+}
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15vh;
+}
+
+.box:nth-child(1) {
+  margin-top: 10vh;
+  align-items: left;
+}
+
+.box {
+  margin-top: 3vh;
+  align-items: left;
+}
+
+.in {
+  padding: 20px;
+}
+
+.box .in {
+  background-color: white;
+  width: 640px;
+  justify-content: left;
+  text-align: left;
+  border-radius: 15px;
+  height: 150px;
+  overflow: hidden;
+}
+
+.box .in .innerBox {
+  display: inline-block;
+  width: 150px;
+  height: 30px;
+  border-radius: 15px;
+  background-color: #D9D9D9;
+}
+
+.box .in button {
+  float: right; /* Align the button to the right */
+  margin-right: 20px; /* Add some right margin for spacing */
+  font-size: 16px;
+  width: 120px;
+  border: 0px solid white;
+  border-radius: 15px;
+  color: #166cea;
+  padding: 10px,20px;
+  margin-bottom: 10px;
+}
+
+p {
+  float: left;
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 10px;
+  margin-left: 10px;
+}
+
+.logo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.logo-title {
+  flex-grow: 1; /* Allow the title to expand and push the button to the right */
+}
+
+.logo-button {
+  margin-left: auto; /* Push the button to the right end */
+}
+
+.bt {
+  position: absolute;
+  top: 5px;
+  left: 350px;
+  width: 60px;
+}
+.pro {
+  background-color: #166cea;
+}
+
+.pro:hover {
+  background-color: #1359c2;
+  transition: all 0.3s;
+}
+
+.acc:hover {
+  background-color: rgb(212, 212, 212);
+  transition: all 0.3s;
+}

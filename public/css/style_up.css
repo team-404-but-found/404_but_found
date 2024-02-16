@@ -1,0 +1,95 @@
+@font-face {
+  font-family: 'CustomFont';
+  src: url('TENADA_font/Tenada.ttf') format('truetype');
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'CustomFont', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: url("whats-app-image-2022-12-15-at-8-28-1.png") no-repeat center;
+  background-size: cover;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #F3F3F3;
+}
+
+.upload-form {
+  position: relative;
+  z-index: 2;
+  width: 400px;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 30px;
+  border-radius: 10px;
+}
+
+.upload-form h1 {
+  font-size: 32px;
+  color: #166cea;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.int-area {
+  margin-top: 20px;
+}
+
+.int-area input {
+  width: 100%;
+  padding: 15px;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #999;
+  font-size: 18px;
+  color: #000;
+  outline: none;
+}
+
+.int-area label {
+  position: absolute;
+  left: 15px;
+  top: 15px;
+  font-size: 18px;
+  color: #999;
+  transition: all 0.5s ease;
+}
+
+.int-area input:focus+label,
+.int-area input:valid+label {
+  top: -20px;
+  font-size: 13px;
+  color: #166cea;
+}
+
+.btn-area {
+  margin-top: 30px;
+}
+
+.btn-area button {
+  width: 105%;
+  height: 50px;
+  background: #166cea;
+  color: #fff;
+  font-size: 20px;
+  border: none;
+  cursor: pointer;
+  font-family: 'CustomFont', sans-serif;
+  border-radius: 30px;
+}

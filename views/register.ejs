@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>회원가입 Page</title>
+    <link rel="stylesheet" href="/css/style_sign.css">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@200;300;400;500;600;700;800&display=swap');
+    .join:hover {
+      background-color: #155bc5;
+      transition: all 0.3s;
+    }
+  *{
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+    </style>
+  </head>
+
+  <body>
+    <section class="sign-form">
+
+      <h1 style="font-family:'CustomFont', sans-serif;">MOIM?</h1>
+      <form action="/register" method="post">
+
+        <div class = "int-area">
+          <input type = "text" name = "id" id = "id"
+          autocomplete = "off" required>
+          <label for = "id">Id</label>
+        </div>
+
+        <div class = "int-area">
+          <input type = "password" name = "password" id = "password"
+          autocomplete = "off" required>
+          <label for = "pw">Password</label>
+        </div>
+
+        <div class = "int-area">
+          <input type = "text" name = "name" id = "name"
+          autocomplete = "off" required>
+          <label for = "username">username</label>
+        </div>
+
+        <div class="btn-area">
+          <button type = "submit" class="join" style="font-family: 'CustomFont', sans-serif; padding-top: 9px;">
+            Joined
+          </button>
+        </div>
+
+        
+      </form>
+      
+    </section>
+
+  </body>
+
+</html>
+
+<!-- 파란색 바꿔야 함  -->

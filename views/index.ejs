@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+  <head><script src="/docs/5.3/assets/js/color-modes.js"></script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.115.4">
+    <title>MOIM</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/jumbotron/">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
+    <link rel="apple-touch-icon" href="/docs/5.3/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" href="/docs/5.3/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="/docs/5.3/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="manifest" href="/docs/5.3/assets/img/favicons/manifest.json">
+    <link rel="mask-icon" href="/docs/5.3/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+    <link rel="icon" href="/docs/5.3/assets/img/favicons/favicon.ico">
+    <meta name="theme-color" content="#712cf9">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"> 
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script> 
+    
+    <style>
+
+      @font-face {
+        font-family: 'CustomFont';
+        src: url('/css/font.ttf') format('truetype');  
+      }
+
+      .btn:hover {
+        background-color: #166cea;
+        color: whitesmoke;
+      }
+
+      body {
+        background-color: #f3f3f3;
+      }
+    </style>
+  </head>
+  <body>
+    
+  <main>
+  <div class="container py-4">
+    <div class="p-5 mt-5 mb-4 rounded-3 text-center">
+      <!-- 설명부분 -->
+      <div class="container-fluid py-4" data-aos="fade-up" data-aos-duration="3000">
+        <h1 class="mb-4 fw-bold" style="font-family: 'CustomFont', sans-serif; color: #166cea; font-size: 100px;" data-aos="fade-up" data-aos-duration="7000">MOIM?</h1>
+        <p class="fs-4 mt-5" style="color:rgb(26, 26, 26);">완벽한 팀프로젝트 팀원을 찾고 계시나요?<br>우리 구인 웹으로 지금 바로 시작해보세요. <br>다양한 스킬을 가진 팀원들과 함께 프로젝트를 성공적으로 완수하세요.</p>
+      </div>
+    </div>
+
+    <div class="row align-items-md-stretch" data-aos="fade-up" data-aos-duration="1000" >
+      <div class="col-md-4">
+        <div class=" p-5 bg-body-tertiary border rounded-3" style="box-shadow: 0px 0px 20px 0.5px rgb(200, 200, 200);">
+          <h2 class="fw-bold" style="color: rgb(54, 54, 54);">배달</h2>
+          <p  style="color:rgb(83, 83, 83);">함께 배달시킬 동료를 찾는 특별한 기회!<br>사람들과 함께 유익한 경험을 만나보세요.</p>
+          <button class="btn btn-outline-secondary" type="button"  onclick="redirectToDelivery()">바로가기</button>
+        </div>
+    </div>
+      <div class="col-md-4">
+        <div class="p-5 bg-body-tertiary border rounded-3" style="box-shadow: 0px 0px 20px 0.5px rgb(200, 200, 200);">
+          <h2 class="fw-bold" style="color: rgb(54, 54, 54);">구인</h2>
+          <p  style="color:rgb(83, 83, 83);">함께할 동료를 찾는 특별한 기회!<br>사람들과 함께 유익한 경험을 만나보세요.</p>
+          <button class="btn btn-outline-secondary" type="button">바로가기</button>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="p-5 bg-body-tertiary border rounded-3" style="box-shadow: 0px 0px 20px 0.5px rgb(200, 200, 200)";>
+          <h2 class="fw-bold" style="color: rgb(54, 54, 54);">공구</h2>
+          <p style="color:rgb(83, 83, 83);">공동구매할 동료를 찾는 특별한 기회!<br>사람들과 함께 유익한 경험을 만나보세요.</p>
+          <button class="btn btn-outline-secondary" type="button">바로가기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<script> 
+  AOS.init();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    </body>
+</html>
+
+<script>
+    function redirectToDelivery() {
+      window.location.href = '/delivery';
+    }
+    </script>

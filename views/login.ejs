@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="./css/style.css">
+  
+  </head>
+  <style>
+    @font-face {
+  font-family: "CustomFont"; /* 임의의 폰트 이름을 지정 */
+  src: url("./css/font.ttf") format("truetype"); /* 폰트 파일의 상대 경로 또는 절대 경로 */
+}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@200;300;400;500;600;700;800&display=swap');
+    .login:hover {
+      background-color: #155bc5;
+      transition: all 0.3s;
+    }
+  *{
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+    </style>
+  <body>
+    <section class="login-form">
+      <h1 style="font-family:'CustomFont', sans-serif;">MOIM?</h1>
+      <form action="/login" method="post">
+
+        <div class = "int-area">
+          <input type = "text" name = "id" id = "id"
+          autocomplete = "off" required>
+          <label for = "id">ID</label>
+        </div>
+
+        <div class = "int-area">
+          <input type = "password" name = "password" id = "password"
+          autocomplete = "off" required>
+          <label for = "pw">Password</label>
+        </div>
+
+        <div class="btn-area" style="box-sizing: border-box;">
+          <button type = "submit" style="font-family: 'CustomFont', sans-serif; padding-top: 9px;" class="login">LOGIN</button>
+        </div>
+
+
+      </form>
+
+      <p class = "join_btn"> 
+        <a href="/register">sign up</a>
+      </p>
+    </section>
+
+  </body>
+</html>

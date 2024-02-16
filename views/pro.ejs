@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>프로필</title>
+  <style>
+    @font-face {
+      font-family: 'CustomFont';
+      src: url('TENADA_font/Tenada.ttf') format('truetype');
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'CustomFont', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: url("whats-app-image-2022-12-15-at-8-28-1.png") no-repeat center;
+      background-size: cover;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-color: #F3F3F3;
+    }
+
+    .profile {
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 32px;
+      color: #166cea;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 18px;
+      color: #555;
+      margin-bottom: 10px;
+      text-align: left; /* 중앙 정렬 추가 */
+    }
+
+    .stack {
+      font-weight: bold;
+      color: #555;
+    }
+
+    .question {
+      margin-top: 20px;
+      text-align: left;
+    }
+
+    .question p {
+      font-size: 16px;
+      margin-bottom: 10px;
+      text-align: left;
+    }
+
+    .question strong {
+      font-weight: bold;
+      color: #166cea;
+    } 
+
+    .profile button {
+      font-family: 'CustomFont';
+      float: right; /* 버튼을 오른쪽으로 정렬 */
+      background-color: #166cea;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="profile">
+
+    <div class="btn-area">
+      <button type = "button">이전</button>
+    </div>
+
+    <h1>프로필</h1>
+    <p><strong>이름:</strong><%= applications[0].userID %></p>
+    <p><strong>제출 시점:</strong> <span class="stack"><%= applications[0].created_at %></span></p>
+
+    <div class="question">
+      <p><strong>사전 질문1:</strong></p>
+
+      <p>- 답변: <%= applications[0].answerQA %></p>
+    </div>
+
+    <div class="question">
+      <p><strong>사전 질문2:</strong></p>
+
+      <p>- 답변: <%= applications[0].answerQB %></p>
+    </div>
+  </div>
+</body>
+</html>
+
+

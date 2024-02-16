@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/style_pr.css" rel="stylesheet">
+  <title>MOIM</title>
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"> 
+  <style>
+    @font-face {
+      font-family: 'CustomFont';
+      src: url('/css/font.ttf') format('truetype');  
+    }
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@200;300;400;500;600;700;800;900&display=swap');
+
+    * {
+      font-family: 'Noto Sans KR', sans-serif;
+    }
+  </style>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script> 
+</head>
+
+<body>
+
+  <div class="wrap">
+    <div class="logo mb-5">
+      <div class="logo-title">
+        <h3 style="font-family: 'CustomFont'; color: #166cea; font-size: 40px;"> MOIM?</h3>
+      </div>
+    </div>
+
+    
+      <!-- search -->
+      <h1 class="fw-semibold" style="color: rgb(65, 65, 65);"><%= project.title %></h1>
+    <!-- box -->
+    <div class="box" data-aos="fade-up" data-aos-easing="ease-out-cubic"
+    data-aos-duration="1500">
+        <div class="in pt-4">
+          <p style="padding-top: 15px; font-weight: bold; color: rgb(53, 53, 53);">
+          세부 내용 : <%= project.context%><br>
+          1번 질문 : <%= project.qa%><br>
+          2번 질문 : <%= project.qb%></p>
+        </div>  
+    </div>
+    <% applications.accepted.forEach(function(application) { %>
+    <div class="box" data-aos="fade-up" data-aos-easing="ease-out-cubic"
+    data-aos-duration="1500">
+        <div class="in pt-4">
+          <p style="font-weight: bold; color: rgb(53, 53, 53);"><%= application.userID %></p>
+          <button class="pro" style="color: white;">승인 완료</button>
+        </div>  
+    </div>
+    <% }); %>
+    <P style="font-size: 15px; margin-top: 30px; color: rgb(196, 196, 196);" data-aos="fade-up" data-aos-easing="ease-out-cubic"
+    data-aos-duration="1500">---- 승인전 ----</P>
+<!-- 구분선 -->
+<% applications.pending.forEach(function(application) { %>
+    <div class="box" data-aos="fade-up" data-aos-easing="ease-out-cubic"
+    data-aos-duration="1500">
+        <div class="in pt-4">
+          <form action="/accept" method="post">
+            <input type="hidden" name="applicationID" value="<%= application.applicationID %>">
+          
+          <p style="font-weight: bold; color: rgb(53, 53, 53);"><%= application.userID %></p>
+          
+          <button class="acc" type="submit">Accept</button>
+          </form>
+          <button onclick="handleClick('<%= application.userID %>')" class="pro" style="color: white;">Profile</button>
+        </div>  
+    </div>
+    <% }); %>
+    <!-- box 넣을거면 여기에 넣어라 -->
+
+  </div>
+  <script> 
+    AOS.init(); 
+
+
+      // 버튼 클릭 시 실행될 함수 정의
+  function handleClick(n) {
+    window.location.assign("/pro?id="+n);
+  }
+</script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+]

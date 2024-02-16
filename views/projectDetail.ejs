@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/style_detail.css">
+  <style>
+    /* Your provided CSS here */
+    body {
+      /* Add any background styles if needed */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .upload-form {
+      width: 80%; /* Adjust width */
+      max-width: 800px;
+      padding: 30px; /* Adjust padding */
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 15px;
+    }
+    .upload-form h1 {
+      font-size: 28px; /* Adjust font size */
+      margin-bottom: 20px;
+    }
+    .form-row {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 15px; /* Adjust margin */
+    }
+    .form-row label {
+      font-size: 16px; /* Adjust font size */
+      color: #999;
+      margin-bottom: 3px; /* Adjust margin */
+    }
+    .form-row label span {
+      font-weight: bold;
+      margin-right: 8px;
+    }
+    .form-row input[type="text"],
+    .form-row input[type="number"],
+    .form-row input[type="date"],
+    .form-row textarea {
+      width: 100%;
+      padding: 8px;
+      background-color: transparent;
+      border: 1px solid #999;
+      font-size: 12px; /* Adjust font size */
+      color: #000;
+      outline: none;
+      resize: vertical;
+      border-radius: 5px;
+    }
+    .form-row .checkbox-like {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin-top: 3px;
+    }
+    .form-row .checkbox-like span {
+      font-size: 16px;
+      margin-left: 3px;
+      color: #999;
+    }
+    .form-row .checkbox-like input[type="number"],
+    .form-row .checkbox-like input[type="date"] {
+      width: 680px; /* Adjust width */
+      margin-left: 10px; /* Adjust margin */
+    }
+    .form-row .textarea-group {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .form-row .textarea-group textarea {
+      width: 100%; /* Adjust width */
+      height: 40px; /* Adjust height */
+    }
+    .btn-area {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin-top: 15px; /* Adjust margin */
+    }
+    .btn-area button {
+      width: 120px; /* Adjust width */
+      height: 40px; /* Adjust height */
+      font-size: 16px; /* Adjust font size */
+      border-radius: 20px;
+      margin-left: 15px; /* Adjust margin */
+    }
+
+    @font-face {
+  font-family: "CustomFont"; /* 임의의 폰트 이름을 지정 */
+  src: url("./css/font.ttf") format("truetype"); /* 폰트 파일의 상대 경로 또는 절대 경로 */
+}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@200;300;400;500;600;700;800&display=swap');
+    
+  *{
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+
+  .btn:hover {
+    background-color: #155bc5;
+    transition: all 0.3s;
+  }
+
+  .btn1{
+    background-color: #999;
+  }
+  .btn1:hover {
+    background-color: #a1a1a1;
+    transition: all 0.3s;
+  }
+    /* Rest of your styles */
+  </style>
+  <title>MOIM?</title>
+</head>
+<body>
+  <div class="upload-form">
+    <h1 style="font-weight: 800; font-family: 'CustomFont', sans-serif; font-size: 34px;">POST</h1>
+    <form action="/apply" method="POST" style="padding: 20px;">
+      <input type="hidden" id="id" name="id" value="<%= project.id %>">
+      <div class="form-row">
+        <label for="title">제목</label>
+        <span style="font-size: 20px; font-weight:600; color: rgb(80, 80, 80);"><%= project.title %></span>
+      </div>
+
+      <div class="form-row">
+        <label for="keyword">키워드</label>
+        <span style="font-size: 20px; font-weight:600; color: rgb(80, 80, 80);"><%= project.keyword %></span>
+      </div>
+
+      <div class="form-row">
+        <label for="content">조건</label>
+        <div class="checkbox-like">
+          <span>인원:</span>
+          <span><%= project.member %></span>
+        </div>
+        <div class="checkbox-like">
+          <span>날짜:</span>
+          <span><%= project.during %></span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label for="content">내용</label>
+        <span style="font-size: 20px; font-weight:600; color: rgb(80, 80, 80);"><%= project.context %></span>
+      </div>
+
+      <div class="form-row">
+        <label for="preconditions">사전 조건1</label>
+        <div class="textarea-group">
+          <span style="font-size: 20px; font-weight:600; color: rgb(80, 80, 80);"><%= project.qa %></span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label for="preconditions">답변1</label>
+        <div class="textarea-group">
+          <textarea id="answerQA" name="answerQA" rows="1"></textarea>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label for="preconditions">사전 조건2</label>
+        <div class="textarea-group">
+          <span style="font-size: 20px; font-weight:600; color: rgb(80, 80, 80);"><%= project.qb %></span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label for="preconditions">답변2</label>
+        <div class="textarea-group">
+          <textarea id="answerQB" name="answerQB" rows="1"></textarea>
+        </div>
+      </div>
+
+      <div class="btn-area" style="padding-top: 4px;">
+        <button type="submit" class="btn">Confirm</button>
+        <button type="button" onclick="handleClick()" class="btn1">Only Host</button>
+      </div>
+      <script>
+        // 버튼 클릭 시 실행될 함수 정의
+        function handleClick() {
+          var originalString = window.location.href; // 원본 문자열
+          var modifiedString = originalString.replace("ject", "file");  
+          window.location.assign(modifiedString);
+          //alert("버튼이 클릭되었습니다!");
+        }
+    </script>
+    </form>
+  </div>
+</body>
+</html>
+
+
+
+
+
