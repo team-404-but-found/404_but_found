@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FCM 토큰 요청</title>
+    <!-- Firebase App (필수) -->
+    <!-- <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script> -->
+    <!-- Firebase Messaging -->
+    <!-- <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-messaging.js"></script> -->
+    <!-- <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-messaging-compat.js"></script> -->
+    <!-- <script src="/firebase-messaging-sw.js" type="module"></script> -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+        import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-messaging.js";
+        
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+          apiKey: "AIzaSyCb4HKgNXI0zAahXVQZ959DqURWZwtYvf4",
+          authDomain: "hackathon404-bf0c3.firebaseapp.com",
+          projectId: "hackathon404-bf0c3",
+          storageBucket: "hackathon404-bf0c3.appspot.com",
+          messagingSenderId: "807052214718",
+          appId: "1:807052214718:web:f210b8a3a4fd6c8d30f9ef",
+          measurementId: "G-00QE2WG4JL"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        
+
+        // document.getElementById('getToken').addEventListener('click', () => {
+        //     Notification.requestPermission().then((permission) => {
+        //         if (permission === 'granted') {
+        //             console.log('Notification permission granted.');
+        //             const messaging = getMessaging();
+        //             getToken(messaging, { vapidKey: 'BM2YOXanz4ggfyqtdtTZx7mZeqiZjdAHkg4cx-TT1HAFnDB97FE-beyxuh_fHa4TuHZqqkgMcFDOo3NQMtPhNsM' }).then((currentToken) => {
+        //             if (currentToken) {
+        //                 // Send the token to your server and update the UI if necessary
+        //                 // ...
+        //                 console.log('토큰 받음:', currentToken);
+        //                 // document.getElementById("tokenValue").innerHTML = currentToken;
+        //                 // 숨겨진 폼의 입력 필드에 값 할당
+        //                 document.getElementById('token').value = currentToken;
+                        
+        //                 // 폼 제출
+        //                 document.getElementById('hiddenForm').submit();
+        //             } else {
+        //                 // Show permission request UI
+        //                 // console.log('No registration token available. Request permission to generate one.');
+        //                 console.log('토큰을 받지 못함. 권한 요청을 확인하세요.');
+        //                 alert("토큰 오류 발생! 다시 시도 합니다!");
+        //                 location.reload();
+        //                 // ...
+        //             }
+        //             }).catch((err) => {
+        //             // console.log('An error occurred while retrieving token. ', err);
+        //                 console.log('토큰 받기 오류:', err);
+        //                 alert("토큰 오류 발생! 다시 시도 합니다!");
+        //                 location.reload();
+        //             // ...
+        //             });
+        //         } else {
+        //             console.log('알림 권한 거부됨');
+        //             alert("알림 권한 거부됨! 다시 시도 합니다!");
+        //             location.reload();
+        //         }
+
+        //     });
+            
+
+        // });
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            // 페이지 로딩 완료 후 실행할 코드
+            console.log("페이지가 완전히 로드되었습니다.");
+            Notification.requestPermission().then((permission) => {
+                if (permission === 'granted') {
+                    console.log('Notification permission granted.');
+                    const messaging = getMessaging();
+                    getToken(messaging, { vapidKey: 'BM2YOXanz4ggfyqtdtTZx7mZeqiZjdAHkg4cx-TT1HAFnDB97FE-beyxuh_fHa4TuHZqqkgMcFDOo3NQMtPhNsM' }).then((currentToken) => {
+                        if (currentToken) {
+                            // Send the token to your server and update the UI if necessary
+                            // ...
+                            console.log('토큰 받음:', currentToken);
+                            // document.getElementById("tokenValue").innerHTML = currentToken;
+                            // 숨겨진 폼의 입력 필드에 값 할당
+                            document.getElementById('token').value = currentToken;
+                            
+                            // 폼 제출
+                            document.getElementById('hiddenForm').submit();
+                        } else {
+                            // Show permission request UI
+                            // console.log('No registration token available. Request permission to generate one.');
+                            console.log('토큰을 받지 못함. 권한 요청을 확인하세요.');
+                            setTimeout(() => {
+                                // 1초 후에 실행할 코드
+                                Notification.requestPermission().then((permission) => {
+                                    if (permission === 'granted') {
+                                        console.log('Notification permission granted.');
+                                        const messaging = getMessaging();
+                                        getToken(messaging, { vapidKey: 'BM2YOXanz4ggfyqtdtTZx7mZeqiZjdAHkg4cx-TT1HAFnDB97FE-beyxuh_fHa4TuHZqqkgMcFDOo3NQMtPhNsM' }).then((currentToken) => {
+                                            if (currentToken) {
+                                                // Send the token to your server and update the UI if necessary
+                                                // ...
+                                                console.log('토큰 받음:', currentToken);
+                                                // document.getElementById("tokenValue").innerHTML = currentToken;
+                                                // 숨겨진 폼의 입력 필드에 값 할당
+                                                document.getElementById('token').value = currentToken;
+                                                
+                                                // 폼 제출
+                                                document.getElementById('hiddenForm').submit();
+                                            } else {
+                                                // Show permission request UI
+                                                // console.log('No registration token available. Request permission to generate one.');
+                                                console.log('토큰을 받지 못함. 권한 요청을 확인하세요.');
+                                                
+
+                                                alert("토큰 오류 발생! 다시 시도 합니다!");
+                                                location.reload();
+                                                // ...
+                                            }
+                                        }).catch((err) => {
+                                        // console.log('An error occurred while retrieving token. ', err);
+                                            console.log('토큰 받기 오류:', err);
+                                            alert("토큰 오류 발생! 다시 시도 합니다!");
+                                            location.reload();
+                                        // ...
+                                        });
+                                    } else {
+                                        console.log('알림 권한 거부됨');
+                                        alert("알림 권한 거부됨! 다시 시도 합니다!");
+                                        location.reload();
+                                    }
+
+                                });
+                            }, 5000);
+
+                            // alert("토큰 오류 발생! 다시 시도 합니다!");
+                            // location.reload();
+                            // ...
+                        }
+                    }).catch((err) => {
+                    // console.log('An error occurred while retrieving token. ', err);
+                        console.log('토큰 받기 오류:', err);
+                        // alert("토큰 오류 발생! 다시 시도 합니다!");
+                        // location.reload();
+                        setTimeout(() => {
+                                // 1초 후에 실행할 코드
+                                Notification.requestPermission().then((permission) => {
+                                    if (permission === 'granted') {
+                                        console.log('Notification permission granted.');
+                                        const messaging = getMessaging();
+                                        getToken(messaging, { vapidKey: 'BM2YOXanz4ggfyqtdtTZx7mZeqiZjdAHkg4cx-TT1HAFnDB97FE-beyxuh_fHa4TuHZqqkgMcFDOo3NQMtPhNsM' }).then((currentToken) => {
+                                            if (currentToken) {
+                                                // Send the token to your server and update the UI if necessary
+                                                // ...
+                                                console.log('토큰 받음:', currentToken);
+                                                // document.getElementById("tokenValue").innerHTML = currentToken;
+                                                // 숨겨진 폼의 입력 필드에 값 할당
+                                                document.getElementById('token').value = currentToken;
+                                                
+                                                // 폼 제출
+                                                document.getElementById('hiddenForm').submit();
+                                            } else {
+                                                // Show permission request UI
+                                                // console.log('No registration token available. Request permission to generate one.');
+                                                console.log('토큰을 받지 못함. 권한 요청을 확인하세요.');
+                                                
+
+                                                alert("토큰 오류 발생! 다시 시도 합니다!");
+                                                location.reload();
+                                                // ...
+                                            }
+                                        }).catch((err) => {
+                                        // console.log('An error occurred while retrieving token. ', err);
+                                            console.log('토큰 받기 오류:', err);
+                                            alert("토큰 오류 발생! 다시 시도 합니다!");
+                                            location.reload();
+                                        // ...
+                                        });
+                                    } else {
+                                        console.log('알림 권한 거부됨');
+                                        alert("알림 권한 거부됨! 다시 시도 합니다!");
+                                        location.reload();
+                                    }
+
+                                });
+                            }, 5000);
+                    // ...
+                    });
+                } else {
+                    console.log('알림 권한 거부됨');
+                    alert("알림 권한 거부됨! 다시 시도 합니다!");
+                    location.reload();
+                }
+
+            });
+            // 여기에 원하는 로직을 추가
+        });
+        
+
+        
+
+        // 서버에 데이터 POST 요청
+        async function postData(url = '', data = {}) {
+            const response = await fetch(url, {
+                method: 'POST', 
+                mode: 'cors', 
+                cache: 'no-cache',
+                credentials: 'same-origin', 
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                redirect: 'follow', 
+                referrerPolicy: 'no-referrer', 
+                body: JSON.stringify(data)
+            });
+            return response.json();
+        }
+
+        const messaging = getMessaging();
+        onMessage(messaging, (payload) => {
+            console.log('Message received. ', payload);
+            // ...
+        });
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/firebase-messaging-sw.js')
+                .then(function(registration) {
+                    console.log('Service Worker 등록 성공:', registration);
+                    // 여기서 푸시 구독 로직을 진행
+                })
+                .catch(function(err) {
+                    console.error('Service Worker 등록 실패:', err);
+                });
+        }
+    </script>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: ababab;
+    }
+
+    .maincontent {
+        height: calc(100vh - 40px - 20px);
+        background-color: #e2e2e2;
+        padding: 40px 20px;
+        box-sizing: border-box;
+    }
+
+    .container {
+        width: 80%;
+        margin: auto;
+        text-align: center;
+    }
+
+    .header {
+        background-color: #f1f1f1;
+        padding: 20px;
+        margin-bottom: 15px;
+        border-radius: 40px 40px 40px 40px;
+    }
+
+
+    .header h1 {
+        color: #166cea;
+    }
+
+    .section {
+        border: 1px solid #ddd;
+        margin-bottom: 10px;
+        padding: 20px;
+        border-radius: 40px 40px 40px 40px;
+    }
+
+    .section.h2 {
+        color: rgb(54, 54, 54);
+
+    }
+</style>
+    
+</head>
+<body>
+    <form id="hiddenForm" action="/noti-post" method="post" style="display: none;">
+        <input type="hidden" name="token" id="token">
+    </form>
+
+    <div class="maincontainer">
+        <div class="container">
+            <div class="header">
+                <h1>404 권한 동의</h1>
+            </div>
+
+            <div class="section">
+                <h2>↖위치 서비스 동의</h2>
+                <h4>위치 서비스를 활성화하시면, 404 But Found가 귀하의 기기 위치에 접근하여 더 정확한 서비스와 개인화된 콘텐츠를 제공하고 사용자 경험을 향상시키는 데 도움을 줍니다.
+                    귀하의 위치 데이터는 맞춤형 추천을 제공하고 전반적인 서비스 경험을 향상하는 데 사용됩니다.</h4>
+
+            </div>
+
+            <div class="section">
+                <h2>↖알림 서비스 권한 동의</h2>
+                <h4>
+                    404 But Found의 최신 소식, 특별 할인, 업데이트 소식을 받아보세요. 저희 알림 서비스를 이용하시면 중요한 알림과 귀하만을 위한 독점 거래 정보를 놓치지 않을 수
+                    있습니다.
+                </h4>
+            </div>
+        </div>
+    </div>
+
+    
+
+<!-- <button id="getToken">푸시 알림 토큰 받기</button>
+<div id="tokenValue">토큰 값이 여기 적힙니다. </div> -->
+
+<script>
+    
+
+    // // 서버에 데이터 POST 요청
+    // async function postData(url = '', data = {}) {
+    //     const response = await fetch(url, {
+    //         method: 'POST', 
+    //         mode: 'cors', 
+    //         cache: 'no-cache',
+    //         credentials: 'same-origin', 
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         redirect: 'follow', 
+    //         referrerPolicy: 'no-referrer', 
+    //         body: JSON.stringify(data)
+    //     });
+    //     return response.json();
+    // }
+</script>
+
+</body>
+</html>
