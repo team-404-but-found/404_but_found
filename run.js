@@ -327,6 +327,18 @@ app.get('/project', (req, res) => {
     });
     
   });
+  app.get('/logout', (req, res) => {
+    // 세션 파괴
+    req.session.destroy((err) => {
+        if(err) {
+            console.log(err);
+            res.send('로그아웃 중 오류가 발생했습니다.');
+        } else {
+            // 로그아웃 성공 후 로그인 페이지로 리다이렉트
+            res.redirect('/login');
+        }
+    });
+});
 
   app.post('/apply', (req, res) => {
     const application = {
