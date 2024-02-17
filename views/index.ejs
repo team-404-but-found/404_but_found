@@ -22,7 +22,7 @@
     <meta name="theme-color" content="#712cf9">
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"> 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script> 
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js" integrity="sha512-NQfB/bDaB8kaSXF8E77JjhHG5PM6XVRxvHzkZiwl3ddWCEPBa23T76MuWSwAJdMGJnmQqM0VeY9kFszsrBEFrQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <style>
 
       @font-face {
@@ -82,6 +82,183 @@
 </main>
 <script> 
   AOS.init();
+</script>
+<script>
+  // 가천관(37.45054749168852,127.13004648226347)
+  // 비전타워A (37.44920320738633,127.12754091645418)
+  // 비전타워B (37.44994694383002, 127.12716923243516)
+  // 글로벌센터 (37.4519427023209,127.1271556585142)
+  // 반도체대학 (37.451032650489246,127.12718237198331)
+  // AI공학관 (37.45522836795382,127.13397645331426 )
+  // 바이오나노대학 (37.45257141375851,127.12899891786184)
+  const places = [
+  { name: "가천관", latitude: 37.45054749168852, longitude: 127.13004648226347 },
+  { name: "비전타워A", latitude: 37.44920320738633, longitude: 127.12754091645418 },
+  { name: "비전타워B", latitude: 37.44994694383002, longitude: 127.12716923243516 },
+  { name: "글로벌센터", latitude: 37.4519427023209, longitude: 127.1271556585142 },
+  { name: "반도체대학", latitude: 37.451032650489246, longitude: 127.12718237198331 },
+  { name: "AI공학관", latitude: 37.45522836795382, longitude: 127.13397645331426 },
+  { name: "바이오나노대학", latitude: 37.45257141375851, longitude: 127.12899891786184 },
+  { name: "공과대학1", latitude: 37.451689320443414, longitude: 127.12817238057715 },
+  { name: "공과대학2", latitude: 37.44929671777178, longitude: 127.12855254313024 },
+  { name: "바이오나노연구원", latitude: 37.44987386213376, longitude: 127.12809582388219 },
+  { name: "한의과대학", latitude: 37.450044471279575, longitude: 127.12863293272454 },
+  { name: "산학협력관", latitude: 37.44947579080848, longitude: 127.12958692257158 },
+  { name: "전자정보도서관", latitude: 37.45053090055871, longitude: 127.12874112993855 },
+  { name: "창업보육센터", latitude: 37.45117420351043, longitude: 127.12958420163469 },
+  { name: "예술체육대학1", latitude: 37.452292383753104, longitude: 127.12873849800518 },
+  { name: "예술체육대학2", latitude: 37.451710206028594, longitude: 127.12967553972547 },
+  { name: "평생교육원", latitude: 37.452723620144326, longitude: 127.12988072222512 },
+  { name: "교육대학원", latitude: 37.45186114092999, longitude: 127.13169880513011 },
+  { name: "중앙도서관", latitude: 37.45225601582147, longitude: 127.1331009159701 },
+  { name: "학생회관", latitude: 37.45316909025129, longitude: 127.13438529951112 },
+  { name: "종합운동장", latitude: 37.455141420666976, longitude: 127.13516302881443 },
+  { name: "제1기숙사", latitude: 37.45641628569658, longitude: 127.1352218350518 },
+  { name: "제2기숙사", latitude: 37.45617872880645, longitude: 127.13415898623543 },
+  { name: "제3기숙사", latitude: 37.45581929663539, longitude: 127.13329936952628 },
+  { name: "뒷길", latitude: 37.45445862405359, longitude: 127.13342692874373 }
+
+  ];
+
+  const placesTranslations = {
+  "가천관": "Gachon Hall",
+  "비전타워A": "Vision Tower A",
+  "비전타워B": "Vision Tower B",
+  "글로벌센터": "Global Center",
+  "반도체대학": "Semiconductor College",
+  "AI공학관": "AI Engineering Building",
+  "바이오나노대학": "BioNano College",
+  "공과대학1": "Engineering College 1",
+  "공과대학2": "Engineering College 2",
+  "바이오나노연구원": "BioNano Research Institute",
+  "한의과대학": "College of Oriental Medicine",
+  "산학협력관": "Industry-Academy Cooperation Building",
+  "전자정보도서관": "Electronic Information Library",
+  "창업보육센터": "Startup Incubation Center",
+  "예술체육대학1": "College of Arts and Sports 1",
+  "예술체육대학2": "College of Arts and Sports 2",
+  "평생교육원": "Lifelong Education Center",
+  "교육대학원": "Graduate School of Education",
+  "중앙도서관": "Central Library",
+  "학생회관": "Student Union Building",
+  "종합운동장": "Main Stadium",
+  "제1기숙사": "Dormitory 1",
+  "제2기숙사": "Dormitory 2",
+  "제3기숙사": "Dormitory 3",
+  "뒷길": "Back Road"
+};
+
+
+  function calculateDistance(lat1, lon1, lat2, lon2) {
+  function toRad(x) {
+      return x * Math.PI / 180;
+  }
+
+  var R = 6371; // 지구의 반지름(km)
+  var dLat = toRad(lat2 - lat1);
+  var dLon = toRad(lon2 - lon1);
+  var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+          Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+          Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  var distance = R * c;
+  return distance;
+  }
+
+  function findNearestPlace(latitude, longitude) {
+      let nearestDistance = Infinity;
+      let nearestPlace = "";
+
+      for (let place of places) {
+          let distance = calculateDistance(latitude, longitude, place.latitude, place.longitude);
+          if (distance < nearestDistance) {
+          nearestDistance = distance;
+          nearestPlace = place.name;
+          }
+      }
+
+      // const formData = new FormData();
+      // formData.append("loc", placesTranslations[nearestPlace]);
+      console.log(`가장 가까운 장소는 ${nearestPlace}입니다.`);
+      fetch(`${window.location.origin}/location-set`, {
+          method: 'POST',
+          headers: {
+            "Content-Type": "application/json",
+            // // 'Content-Type': 'application/x-www-form-urlencoded',
+            // 'Content-Type': 'multipart/form-data'
+          },
+          body: JSON.stringify({ loc: placesTranslations[nearestPlace] })
+      })
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch(error => console.error('Error:', error));
+      // FormData 객체 생성
+      // fetch를 사용하여 폼 데이터 전송
+      // axios.post(`${window.location.origin}/location-set`, {
+      //     location: placesTranslations[nearestPlace]
+      //   })
+      // .then(({ data }) => data)
+      // .catch(error => console.error('Error:', error));
+  }
+
+  function getLocation() {
+  if ("geolocation" in navigator) {
+      navigator.permissions.query({name: 'geolocation'}).then(function(result) {
+      if (result.state === 'granted') {
+          getCurrentPositionWithInterval();
+      } else if (result.state === 'prompt') {
+          navigator.geolocation.getCurrentPosition(showPosition, showError, {enableHighAccuracy: true, timeout: 10000, maximumAge: 0});
+      } else if (result.state === 'denied') {
+          console.error("Location access was denied.");
+      }
+      result.onchange = function() {
+          console.log("Permission state changed to " + this.state);
+      };
+      });
+  } else {
+      console.error("Geolocation is not supported by this browser.");
+  }
+  }
+
+  function getCurrentPositionWithInterval() {
+  updatePosition();
+  setInterval(updatePosition, 60000); // 60000ms = 1분
+  }
+
+  function updatePosition() {
+  navigator.geolocation.getCurrentPosition(function(position) {
+      showPosition(position);
+      findNearestPlace(position.coords.latitude, position.coords.longitude);
+  }, showError, {enableHighAccuracy: true, timeout: 10000, maximumAge: 0});
+  }
+
+  function showPosition(position) {
+  var latitude = position.coords.latitude;
+  var longitude = position.coords.longitude;
+  console.log("Latitude: " + latitude + ", Longitude: " + longitude);
+  }
+
+  function showError(error) {
+  switch(error.code) {
+      case error.PERMISSION_DENIED:
+      console.error("User denied the request for Geolocation.");
+      break;
+      case error.POSITION_UNAVAILABLE:
+      console.error("Location information is unavailable.");
+      break;
+      case error.TIMEOUT:
+      console.error("The request to get user location timed out.");
+      break;
+      case error.UNKNOWN_ERROR:
+      console.error("An unknown error occurred.");
+      break;
+  }
+  }
+
+  // 위치 정보를 가져오는 함수 호출
+  getLocation();
+
+
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     </body>
