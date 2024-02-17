@@ -60,7 +60,16 @@ app.post('/login', (req, res) => {
             bcrypt.compare(password, results[0].password, function(err, result) {
                 if (result == true) {
                     req.session.user = results[0].uid;
-                    res.redirect('/');
+                    if (results[0].push_token === null || results[0].push_token === undefined) {
+                      res.redirect('/noti-setting');
+                    } else {
+                      res.redirect('/location-setting');
+                    }
+                    // if (results[0].location === null || results[0].location === undefined) {
+                    //   res.redirect('/location-setting');
+                    // }
+                    // res.redirect('/');
+                    // res.redirect('/loaction-setting');
                 } else {
                     res.send('Incorrect password');
                 }
@@ -70,6 +79,42 @@ app.post('/login', (req, res) => {
         }
     });
 });
+
+app.get('/noti-setting', (req, res) => {
+  res.render('noti_get');
+});
+
+app.get('/location-setting', (req, res) => {
+  res.render('loaction_get');
+});
+
+app.post('/noti-post', (req, res) => {
+  const { token } = req.body;
+  
+  connection.query('UPDATE `users` SET `push_token` = ? WHERE `uid` = ?;', [token, req.session.user], (err, results) => {
+    if (err) throw err;
+    // if (results[0].location === null || results[0].location === undefined) {
+    //   res.redirect('/location-setting');
+    // }
+    // res.redirect('/');
+    res.redirect('/location-setting');
+  });
+});
+
+app.post('/loacation-set', (req, res) => {
+  const { loaction } = req.body;
+  
+  connection.query('UPDATE `users` SET `loaction` = ? WHERE `uid` = ?;', [loaction, req.session.user], (err, results) => {
+    if (err) throw err;
+    // if (results[0].location === null || results[0].location === undefined) {
+    //   res.redirect('/location-setting');
+    // }
+    // res.redirect('/');
+    // res.redirect('/loaction-setting');
+    res.send('OK');
+  });
+});
+
 
 app.get('/register', (req, res) => {
     res.render('register');
