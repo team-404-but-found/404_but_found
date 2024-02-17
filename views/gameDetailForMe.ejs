@@ -155,39 +155,24 @@
         <label for="content">사진</label>
         <img src="/images/<%= project.image %>" style="width: 300px;">
       </div>
-      <div class="form-row" >
-        <label for="RSP">Your Choice</label><br>
-          <div id="ga">
-            <input type="hidden" id="selected_image" name="selected_image" value="">
-            <input type="image" src="/rsp/rock.png" class="RSP" onClick="selectImage(0, event)">
-            <input type="image" src="/rsp/scissros.jpeg" class="RSP" onClick="selectImage(1, event)">
-            <input type="image" src="/rsp/paper.png" class="RSP" onClick="selectImage(2, event)">
-          </div>
-        </div>  
-        <div class="btn-area">
-          <button type="submit">등록</button>
-          <a href="/"><button type="button">취소</button></a>
-        </div>  
+    <div class="btn-area">
+        <span id="additionalBtnArea"></span> <!-- 추가된 버튼이 들어갈 영역 -->
+        <a href="/"><button type="button">취소</button></a>
+    </div>  
      
     </form>
   </div>
 </body>
 </html>
 <script>
-
-    function selectImage(imageNumber, event) {
-      event.preventDefault();
-      // 선택된 이미지의 값을 변경
-      document.getElementById('selected_image').value = imageNumber;
-    
-      // 모든 이미지 요소에서 선택 클래스를 제거
-      var images = document.getElementsByClassName('RSP');
-      for (var i = 0; i < images.length; i++) {
-        images[i].removeAttribute('id');
-      }
-    
-      // 클릭된 이미지에 선택 id를 추가
-      var clickedImage = document.querySelector('input[type="image"][onClick="selectImage(' + imageNumber + ', event)"]');
-      clickedImage.setAttribute('id', 'selected_image_border');
+    var status = <%= project.status %>;
+    if(status!=0){
+        var additionalBtnArea = document.getElementById('additionalBtnArea');
+        var newButton = document.createElement('button');
+        newButton.setAttribute('type', 'submit');
+        newButton.textContent = '결과 확인';
+        additionalBtnArea.appendChild(newButton);
     }
+    
+
 </script>
