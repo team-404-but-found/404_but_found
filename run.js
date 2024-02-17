@@ -37,6 +37,7 @@ const app = express();
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json())
 app.use(session({ secret: 'your_secret_key', resave: false, saveUninitialized: true }));
 app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'ejs');
@@ -109,8 +110,8 @@ app.post('/noti-post', (req, res) => {
 app.post('/location-set', (req, res) => {
   console.log("----------sss")
   console.log(req);
-  const { loc } = req?.body;  
-  console.log(loc, req?.session?.user);
+  const { loc } = req.body;  
+  console.log(loc, req.session.user);
   connection.query('UPDATE `users` SET `location` = ? WHERE `uid` = ?;', [loc, req.session.user], (err, results) => {
     if (err) throw err;
     console.log(results);
