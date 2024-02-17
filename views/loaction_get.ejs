@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>권한 동의</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: ababab;
+        }
+
+        .maincontent {
+            height: calc(100vh - 40px - 20px);
+            background-color: #e2e2e2;
+            padding: 40px 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            text-align: center;
+        }
+
+        .header {
+            background-color: #f1f1f1;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 40px 40px 40px 40px;
+        }
+
+
+        .header h1 {
+            color: #166cea;
+        }
+
+        .section {
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+            padding: 20px;
+            border-radius: 40px 40px 40px 40px;
+        }
+
+        .section.h2 {
+            color: rgb(54, 54, 54);
+
+        }
+    </style>
+
+</head>
+<body>
+    <div class="maincontainer">
+        <div class="container">
+            <div class="header">
+                <h1>404 권한 동의</h1>
+            </div>
+
+            <div class="section">
+                <h2>↖위치 서비스 동의</h2>
+                <h4>위치 서비스를 활성화하시면, 404 But Found가 귀하의 기기 위치에 접근하여 더 정확한 서비스와 개인화된 콘텐츠를 제공하고 사용자 경험을 향상시키는 데 도움을 줍니다.
+                    귀하의 위치 데이터는 맞춤형 추천을 제공하고 전반적인 서비스 경험을 향상하는 데 사용됩니다.</h4>
+
+            </div>
+
+            <div class="section">
+                <h2>↖알림 서비스 권한 동의</h2>
+                <h4>
+                    404 But Found의 최신 소식, 특별 할인, 업데이트 소식을 받아보세요. 저희 알림 서비스를 이용하시면 중요한 알림과 귀하만을 위한 독점 거래 정보를 놓치지 않을 수
+                    있습니다.
+                </h4>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            checkGeolocationPermission();
+        });
+
+        function checkGeolocationPermission() {
+        if ("geolocation" in navigator) {
+            navigator.permissions.query({name: 'geolocation'}).then(function(result) {
+            if (result.state === 'granted') {
+                // 권한이 이미 허용된 경우, 지정된 페이지로 이동
+                // window.location.href = "/";
+                window.location.replace("/");
+            } else if (result.state === 'prompt') {
+                // 권한이 아직 결정되지 않은 경우, 권한 요청
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    // 권한 허용 후의 동작, 예: 페이지 이동
+                    // window.location.href = "/";
+                    window.location.replace("/");
+                }, function(error) {
+                    // 권한 거부 후의 동작
+                    console.error("Geolocation permission denied.");
+                    alert("권한을 허용해주셔야 이용 가능합니다!");
+                    location.reload();
+                });
+            } else if (result.state === 'denied') {
+                // 권한이 거부된 경우
+                console.error("Geolocation permission has been denied.");
+                alert("권한을 허용해주셔야 이용 가능합니다!");
+                location.reload();
+            }
+            });
+        } else {
+            console.error("Geolocation is not supported by this browser.");
+            alert("권한을 허용해주셔야 이용 가능합니다!");
+                location.reload();
+        }
+        }
+
+    </script>
+</body>
+</html>
