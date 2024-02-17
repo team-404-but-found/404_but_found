@@ -86,7 +86,8 @@ button {
                 <img id="scissors" src="/rsp/scissros.jpeg">
                 <img id="paper" src="/rsp/paper.png">
             </div>
-        </section>
+        </section >
+        <div id="mine"></div>
         <div id="result"></div>
         <h2 id="winner-announcement"></h2>
     </div>
@@ -95,11 +96,9 @@ button {
 <script>
     var proRSP = <%= project.proRSP %>;
     var challRSP = <%= project.challRSP %>;
-
-
+    var isAuthor = <%= is_author %>;
     const img = ['rock', 'scissors', 'paper'];
-
-    // Globally accessible changeBackgroundColor function
+    // Globally accessible changeBackgroundColor function   
     function changeBackgroundColor(i) {
         var Image = document.getElementById(img[i]);
         Image.style.border = "5px solid red";
@@ -130,7 +129,7 @@ button {
 
     // Declares winner and controls the game flow
     async function declareWinner(player2Choice) {
-        const player1Choice = proRSP; // Assuming player1's choice is always 1 for demonstration
+        const player1Choice = oppo; // Assuming player1's choice is always 1 for demonstration
         var num = 4;
         var randomInt = num * 3 + player1Choice;
 
@@ -152,17 +151,49 @@ button {
     function compareChoices(player1, player2) {
         if (player1 === player2) return "It's a Draw!";
         else if (player1 === 1) {
-            return (player2 === 0) ? "Player 2 Wins!" : "Player 1 Wins!";
+            return (player2 === 0) ? "You Wins!" : "You Lose!";
         }
         else if (player1 === 0) {
-            return (player2 === 2) ? "Player 2 Wins!" : "Player 1 Wins!";
+            return (player2 === 2) ? "You Wins!" : "You Lose!";
         }
         else if (player1 === 2) {
-            return (player2 === 1) ? "Player 2 Wins!" : "Player 1 Wins!";
+            return (player2 === 1) ? "You Wins!" : "You Lose!";
         }
     }
+    var imageContainer = document.getElementById("mine");
 
-    declareWinner(challRSP);
+    if(isAuthor){
+        var oppo = challRSP
+        const image = new Image();
+        if(proRSP == 0){
+            image.src = `/rsp/rock.png`;
+        }
+        else if(proRSP == 1){
+            image.src = `/rsp/scissros.jpeg`;
+        }
+        else {
+            image.src = `/rsp/paper.png`;
+        }
+        imageContainer.appendChild(image);
+        declareWinner(proRSP);
+    }
+    else{
+       var oppo = proRSP
+        const image = new Image();
+        if(challRSP == 0){
+            image.src = `/rsp/rock.png`;
+        }
+        else if(challRSP == 1){
+            image.src = `/rsp/scissros.jpeg`;
+        }
+        else {
+            image.src = `/rsp/paper.png`;
+        }
+        imageContainer.appendChild(image);
+
+        declareWinner(challRSP);
+    }
+    
 }
   
 </script>
