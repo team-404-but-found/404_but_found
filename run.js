@@ -90,6 +90,11 @@ app.get('/location-setting', (req, res) => {
 
 app.post('/noti-post', (req, res) => {
   const { token } = req.body;
+
+  console.log("----------sss")
+  console.log(req.body);
+  
+  console.log(token, req.session.user);
   
   connection.query('UPDATE `users` SET `push_token` = ? WHERE `uid` = ?;', [token, req.session.user], (err, results) => {
     if (err) throw err;
@@ -101,17 +106,21 @@ app.post('/noti-post', (req, res) => {
   });
 });
 
-app.post('/loacation-set', (req, res) => {
-  const { loaction } = req.body;
-  
-  connection.query('UPDATE `users` SET `loaction` = ? WHERE `uid` = ?;', [loaction, req.session.user], (err, results) => {
+app.post('/location-set', (req, res) => {
+  console.log("----------sss")
+  console.log(req);
+  const { loc } = req?.body;  
+  console.log(loc, req?.session?.user);
+  connection.query('UPDATE `users` SET `location` = ? WHERE `uid` = ?;', [loc, req.session.user], (err, results) => {
     if (err) throw err;
+    console.log(results);
     // if (results[0].location === null || results[0].location === undefined) {
     //   res.redirect('/location-setting');
     // }
     // res.redirect('/');
+    
     // res.redirect('/loaction-setting');
-    res.send('OK');
+    res.send('["OK"]');
   });
 });
 
