@@ -186,6 +186,38 @@ app.post('/create', upload.single('image'), (req, res) => {
     if (err) throw err;
     res.redirect('/');
   });
+
+  // UPDATE `lost` SET `status` = 1 WHERE `no` = 5;
+  const query4 = 'SELECT * FROM lost WHERE no = ?;';
+  
+  connection.query(query4, [id], (err, results) => {
+    if (err) throw err;
+    const uid = results[0].uid;
+  });
+
+  const query5 = 'SELECT * FROM users WHERE uid = ?;';
+
+  connection.query(query5, [uid], (err, results) => {
+    if (err) throw err;
+    const token = results[0].push_token;
+  });
+
+  const message = {
+    notification: {
+    title: '분실물 찾음 알림',
+    body: '누군가가 분실물을 찾았데요!'
+    },
+    tokens: [token], // 메시지를 보낼 FCM 토큰 배열
+};
+
+admin.messaging().sendMulticast(message)
+    .then((response) => {
+    console.log('Successfully sent message:', response);
+    })
+    .catch((error) => {
+    console.log('Error sending message:', error);
+    });
+}
 });
 
 app.post('/game_make', upload.single('image'), (req, res) => {
@@ -264,6 +296,37 @@ app.get('/project', (req, res) => {
         if (err) throw err;
         res.redirect('/');
       });
+
+      // UPDATE `lost` SET `status` = 1 WHERE `no` = 5;
+      const query4 = 'SELECT * FROM lost WHERE no = ?;';
+  
+      connection.query(query4, [id], (err, results) => {
+        if (err) throw err;
+        const uid = results[0].uid;
+      });
+
+      const query5 = 'SELECT * FROM users WHERE uid = ?;';
+  
+      connection.query(query5, [uid], (err, results) => {
+        if (err) throw err;
+        const token = results[0].push_token;
+      });
+
+      const message = {
+        notification: {
+        title: '분실물 찾음 알림',
+        body: '누군가가 분실물을 찾았데요!'
+        },
+        tokens: [token], // 메시지를 보낼 FCM 토큰 배열
+    };
+    
+    admin.messaging().sendMulticast(message)
+        .then((response) => {
+        console.log('Successfully sent message:', response);
+        })
+        .catch((error) => {
+        console.log('Error sending message:', error);
+        });
     }
     
     
