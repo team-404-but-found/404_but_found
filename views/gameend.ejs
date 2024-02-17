@@ -91,6 +91,9 @@ button {
         <div id="result"></div>
         <h2 id="winner-announcement"></h2>
     </div>
+    <div>
+        <a href="/"><button type="button">뒤로가기</button></a>
+    </div>
 </body>
 </html>
 <script>
@@ -144,7 +147,6 @@ button {
 
         const winnerText = compareChoices(player1Choice, player2Choice);
         winnerAnnouncement.innerText = winnerText;
-        enableButton();
     }
 
     // Compares player choices to determine the winner

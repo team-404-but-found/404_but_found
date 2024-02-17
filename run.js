@@ -137,9 +137,9 @@ app.post('/game_make', upload.single('image'), (req, res) => {
   const { title, context, selected_image } = req.body;
   // multer에서 처리된 파일 이름 사용
   const imageFileName = req.file.filename; 
-  const query = 'INSERT INTO proposer (name, context, image, RSP, status) VALUES (?, ?, ?, ?, ?)';
+  const query = 'INSERT INTO proposer (name, context, image, RSP, status, author) VALUES (?, ?, ?, ?, ?, ?)';
   
-  connection.query(query, [title, context, imageFileName, selected_image, 0], (err, results) => {
+  connection.query(query, [title, context, imageFileName, selected_image, 0, req.session.user], (err, results) => {
     if (err) throw err;
     res.redirect('/');
   });
@@ -221,6 +221,7 @@ app.get('/project', (req, res) => {
 
   app.get('/game_detail', (req, res) => {
     const gameId = req.query.id;
+    console.log(`gameID:${gameId}`);
     connection.query('SELECT * FROM proposer WHERE no = ?', [gameId], (err, results) => {
       if (err) throw err;
       if (results.length === 0) {
@@ -277,51 +278,56 @@ app.get('/project', (req, res) => {
     const { id, selected_image } = req.body;
     const intid = parseInt(id)
     console.log(intid);
-    const query = 'INSERT INTO challenger  (RSP, proposer_no, uid) VALUES (?, ?, ?)';
-     connection.query(query, [selected_image, id, req.session.user], (err, results) => {
-        if (err) throw err;
-     });
-    const query2 = `SELECT proposer.no ,proposer.RSP as proRSP, status, challenger.RSP as challRSP
-    FROM proposer INNER JOIN challenger ON proposer.no = challenger.proposer_no;`;
 
-    // if(!is_author){
-    //   console.log("in here");
-    //   connection.query(query, [selected_image, id, req.session.user], (err, results) => {
-    //     if (err) throw err;
-    //   });
-    //   connection.query(query2, (err2, results2) => {
-    //     if (err2) throw err;
-    //     const project2 = results2[0];
-    //     var propo = project2.proRSP;
-    //     var chall = project2.challRSP;
-    //     var res = undefined;
-    //     console.log(propo, chall);
-    //     if(propo != chall){
-    //       console.log("in if");
-    //       if(propo == 0){
-    //         (chall == 1)? res = 1 : res = 2;
-    //       }
-    //       else if(propo == 1){
-    //         (chall == 2)? res = 1: res = 2;
-    //       }
-    //       else{
-    //         (chall == 0)? res = 1: res = 2;
-    //       }
-    //     }
-    //     console.log(`res= ${res}`);
-    //     const query3 = `UPDATE proposer SET status = ? WHERE no = ?`;
-    //     connection.query(query3, [res, id], (err, results) => {
-    //       if (err) throw err;
-    //     });     
-    //   })
-        
-    // }
+    const query2 = `SELECT proposer.no ,proposer.RSP as proRSP, status, challenger.RSP as challRSP
+    FROM proposer INNER JOIN challenger ON proposer.no = challenger.proposer_no WHERE proposer.no = ${intid}; `;
+
     connection.query(`SELECT * FROM proposer WHERE no = ?`,[intid],(err, result)=>{
       is_author = req.session.user==result[0].author
+
+    if(!is_author){
+      const query = 'INSERT INTO challenger  (RSP, proposer_no, uid) VALUES (?, ?, ?)';
+      connection.query(query, [selected_image, id, req.session.user], (err, results) => {
+         if (err) throw err;
+      });
+      console.log("in here");
+      connection.query(query2, (err2, results3) => {
+        if (err2) throw err;
+        const project2 = results3[0];
+        var propo = project2.proRSP;
+        var chall = project2.challRSP;
+        var res = undefined;
+        console.log(propo, chall);
+        if(propo != chall){
+          console.log("in if");
+          if(propo == 0){
+            (chall == 1)? res = 1 : res = 2;
+          }
+          else if(propo == 1){
+            (chall == 2)? res = 1: res = 2;
+          }
+          else{
+            (chall == 0)? res = 1: res = 2;
+          }
+        }
+        else{
+          res = 0;
+        }
+        console.log(`res= ${res}`);
+        const query3 = `UPDATE proposer SET status = ? WHERE no = ?`;
+        connection.query(query3, [res, id], (err, results) => {
+          if (err) throw err;
+        });     
+      })
+        
+    }
+    
+    
       connection.query(query2, (err2, results2) => {
         if (err2) throw err;
         const project = results2[0];
         console.log(is_author);
+        console.log(project);
         res.render('gameend', { project, is_author });
       });
     });
